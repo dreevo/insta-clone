@@ -56,6 +56,7 @@ function CreatePost() {
   };
   return (
     <div className="card input-field">
+      <h3>Create new post </h3>
       <input
         type="text"
         placeholder="title"

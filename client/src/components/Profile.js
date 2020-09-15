@@ -21,7 +21,7 @@ function Profile() {
         <div>
           <img
             className="profile-img"
-            src="https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+            src="http://mastere.utm.rnu.tn/uploads/profile/d3b1fb47eaaf14c9d47297954bd75e0b.jpeg"
             alt="img"
           />
         </div>

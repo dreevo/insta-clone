@@ -4,6 +4,7 @@ import { UserContext } from "../App";
 function Home() {
   const [posts, setPosts] = useState([]);
   const { state, dispatch } = useContext(UserContext);
+
   useEffect(() => {
     fetch("http://localhost:4000/allposts", {
       headers: {
@@ -12,7 +13,6 @@ function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setPosts(result.posts);
       });
   }, []);
@@ -33,6 +33,7 @@ function Home() {
         const newData = posts.map((item) => {
           if (item._id == result._id) {
             result.postedBy = item.postedBy;
+            result.comments.commentedBy = item.comments.commentedBy;
             return result;
           } else {
             return item;
@@ -54,6 +55,36 @@ function Home() {
       },
       body: JSON.stringify({
         postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = posts.map((item) => {
+          if (item._id == result._id) {
+            result.postedBy = item.postedBy;
+            result.comments.commentedBy = item.comments.commentedBy;
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setPosts(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const postComment = async (text, postId) => {
+    await fetch("http://localhost:4000/comment", {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        postId,
+        text,
       }),
     })
       .then((res) => res.json())
@@ -105,7 +136,24 @@ function Home() {
               <h6>{post.title}</h6>
               <h6>{post.likes.length} likes</h6>
               <p>{post.body}</p>
-              <input type="text" placeholder="add a comment.." />
+              {post.comments.map((comment) => {
+                return (
+                  <h6 key={comment._id}>
+                    <span style={{ fontWeight: "bold", marginRight: "5px" }}>
+                      {comment.commentedBy.name}
+                    </span>
+                    {comment.text}
+                  </h6>
+                );
+              })}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  postComment(e.target[0].value, post._id);
+                }}
+              >
+                <input type="text" placeholder="add a comment.." />
+              </form>
             </div>
           </div>
         );

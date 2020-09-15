@@ -26,6 +26,7 @@ module.exports.createPost_post = (req, res) => {
 module.exports.allPosts_get = (req, res) => {
   Post.find()
     .populate("postedBy", "_id name")
+    .populate("comments.commentedBy", "_id name")
     .then((posts) => {
       res.json({ posts });
     })
@@ -53,15 +54,17 @@ module.exports.likePost = (req, res) => {
     },
     {
       new: true,
+      useFindAndModify: false,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(422).json({ error: err });
-    } else {
-      console.log(result);
-      res.json(result);
-    }
-  });
+  )
+    .populate("comments.commentedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
 };
 
 module.exports.unlikePost = (req, res) => {
@@ -72,12 +75,40 @@ module.exports.unlikePost = (req, res) => {
     },
     {
       new: true,
+      useFindAndModify: false,
     }
-  ).exec((err, result) => {
-    if (err) {
-      return res.status(422).json({ error: err });
-    } else {
-      res.json(result);
+  )
+    .populate("comments.commentedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
+};
+
+module.exports.comment = (req, res) => {
+  const comment = {
+    text: req.body.text,
+    commentedBy: req.user,
+  };
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $push: { comments: comment },
+    },
+    {
+      new: true,
+      useFindAndModify: false,
     }
-  });
+  )
+    .populate("comments.commentedBy", "_id name")
+    .exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
 };

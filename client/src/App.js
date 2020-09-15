@@ -55,6 +55,7 @@ function App() {
       <Router>
         <div className="App">
           <Navbar />
+
           <Routing />
         </div>
       </Router>

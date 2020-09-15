@@ -9,5 +9,6 @@ Router.get("/allposts", requireLogin, postController.allPosts_get);
 Router.get("/myposts", requireLogin, postController.myPosts_get);
 Router.put("/like", requireLogin, postController.likePost);
 Router.put("/unlike", requireLogin, postController.unlikePost);
+Router.put("/comment", requireLogin, postController.comment);
 
 module.exports = Router;

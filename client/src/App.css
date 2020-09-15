@@ -17,6 +17,16 @@ h2 {
   font-family: "Grand Hotel", cursive;
 }
 
+nav {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+
+.navbar {
+  margin-top: 90px;
+}
+
 nav li {
   margin-right: 20px;
 }
@@ -102,4 +112,9 @@ nav li {
   top: 2;
   right: 0;
   margin-right: 10px;
+}
+
+.material-icons {
+  cursor: pointer !important;
+  margin: 0px 5px;
 }

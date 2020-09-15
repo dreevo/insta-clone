@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
+import M from "materialize-css";
 
 function Navbar() {
   const { state, dispatch } = useContext(UserContext);
@@ -20,6 +21,10 @@ function Navbar() {
             onClick={() => {
               localStorage.clear();
               dispatch({ type: "CLEAR" });
+              M.toast({
+                html: "Logged out successfully",
+                classes: "rounded green darken-1",
+              });
               history.push("/signin");
             }}
           >
@@ -39,7 +44,7 @@ function Navbar() {
     }
   };
   return (
-    <div>
+    <div className="navbar">
       <nav>
         <div className="nav-wrapper white">
           <Link to={state ? "/" : "/signin"} className="brand-logo">
