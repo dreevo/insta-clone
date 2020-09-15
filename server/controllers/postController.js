@@ -44,3 +44,40 @@ module.exports.myPosts_get = (req, res) => {
       console.log(err);
     });
 };
+
+module.exports.likePost = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $push: { likes: req.user._id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      console.log(result);
+      res.json(result);
+    }
+  });
+};
+
+module.exports.unlikePost = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $pull: { likes: req.user._id },
+    },
+    {
+      new: true,
+    }
+  ).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json(result);
+    }
+  });
+};
