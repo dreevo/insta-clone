@@ -62,7 +62,7 @@ module.exports.signin_post = (req, res) => {
           const { _id, name, email } = savedUser;
           res.json({ token, user: { _id, name, email } });
         } else {
-          res.status(422).json("Invalid email or password");
+          res.status(422).json({ error: "Invalid email or password" });
         }
       })
       .catch((err) => {

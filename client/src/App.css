@@ -8,9 +8,17 @@ a {
   color: black !important;
 }
 
+.brand-logo {
+  margin-left: 20px;
+}
+
 .brand-logo,
 h2 {
   font-family: "Grand Hotel", cursive;
+}
+
+nav li {
+  margin-right: 20px;
 }
 
 .mycard {
@@ -24,7 +32,13 @@ h2 {
   margin: 10px auto;
 }
 
-.auth-card input[type="text"]:focus {
+.auth-card input[type="text"]:focus,
+.auth-card input[type="password"]:focus {
+  border-bottom: 1px solid #1976d2 !important;
+  box-shadow: 0 1px 0 0 #1976d2 !important;
+}
+
+.card-content input[type="text"]:focus {
   border-bottom: 1px solid #1976d2 !important;
   box-shadow: 0 1px 0 0 #1976d2 !important;
 }
