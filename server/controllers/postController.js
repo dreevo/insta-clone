@@ -2,7 +2,6 @@ const Post = require("../models/Post");
 
 module.exports.createPost_post = (req, res) => {
   const { title, body, pic } = req.body;
-  console.log(pic);
   if (!title || !body || !pic) {
     res.status(422).json({ error: "Please add the required fields" });
   }
