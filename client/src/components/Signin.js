@@ -25,6 +25,8 @@ function Signin() {
         } else {
           console.log(`user : ${data.user.name} and token : ${data.token}`);
           console.log(data.user);
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
           M.toast({
             html: "Signed in successfully",
             classes: "rounded green darken-1",
