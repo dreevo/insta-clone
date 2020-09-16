@@ -99,6 +99,7 @@ function Home() {
           }
         });
         setPosts(newData);
+        document.getElementById(`comment-input${postId}`).value = "";
       })
       .catch((err) => {
         console.log(err);
@@ -121,6 +122,27 @@ function Home() {
         });
         const newData = posts.filter((post) => {
           return post._id != result._id;
+        });
+        setPosts(newData);
+      });
+  };
+
+  const deleteComment = async (postId, commentId) => {
+    fetch(`http://localhost:4000/deleteComment/${postId}/${commentId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const newData = posts.map((item) => {
+          if (item._id == result._id) {
+            return result;
+          } else {
+            return item;
+          }
         });
         setPosts(newData);
       });
@@ -177,6 +199,15 @@ function Home() {
                       {comment.commentedBy.name}
                     </span>
                     {comment.text}
+                    {comment.commentedBy._id == state._id && (
+                      <i
+                        className="material-icons"
+                        style={{ float: "right" }}
+                        onClick={() => deleteComment(post._id, comment._id)}
+                      >
+                        delete
+                      </i>
+                    )}
                   </h6>
                 );
               })}
@@ -186,7 +217,11 @@ function Home() {
                   postComment(e.target[0].value, post._id);
                 }}
               >
-                <input type="text" placeholder="add a comment.." />
+                <input
+                  id={`comment-input${post._id}`}
+                  type="text"
+                  placeholder="add a comment.."
+                />
               </form>
             </div>
           </div>

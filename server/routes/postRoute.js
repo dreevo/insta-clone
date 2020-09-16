@@ -11,5 +11,10 @@ Router.put("/like", requireLogin, postController.likePost);
 Router.put("/unlike", requireLogin, postController.unlikePost);
 Router.put("/comment", requireLogin, postController.comment);
 Router.delete("/deletepost/:postId", requireLogin, postController.deletePost);
+Router.delete(
+  "/deleteComment/:postId/:commentId",
+  requireLogin,
+  postController.deleteComment
+);
 
 module.exports = Router;

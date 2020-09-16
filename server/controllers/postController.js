@@ -132,3 +132,25 @@ module.exports.deletePost = (req, res) => {
       }
     });
 };
+
+module.exports.deleteComment = (req, res) => {
+  Post.findByIdAndUpdate(
+    req.params.postId,
+    {
+      $pull: { comments: { _id: req.params.commentId } },
+    },
+    {
+      new: true,
+      useFindAndModify: false,
+    }
+  )
+    .populate("comments.commentedBy", "_id name")
+    .populate("postedBy", "_id name")
+    .exec((err, result) => {
+      if (err || !result) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
+};
