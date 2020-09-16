@@ -5,6 +5,7 @@ const User = require("./models/User");
 const Post = require("./models/Post");
 const authRoute = require("./routes/authRoute");
 const postRoute = require("./routes/postRoute");
+const userRoute = require("./routes/userRoute");
 const cors = require("cors");
 
 const app = express();
@@ -34,3 +35,4 @@ app.listen(4000, () => {
 //Routes
 app.use("/", authRoute);
 app.use("/", postRoute);
+app.use("/", userRoute);
