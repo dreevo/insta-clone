@@ -6,8 +6,11 @@ import M from "materialize-css";
 function UserProfile() {
   const [userProfile, setUserProfile] = useState(null);
   const { state, dispatch } = useContext(UserContext);
-  const [showFollow, setShowFollow] = useState(true);
   const { userid } = useParams();
+  const [showFollow, setShowFollow] = useState(
+    state ? !state.following.includes(userid) : true
+  );
+
   useEffect(() => {
     fetch(`http://localhost:4000/user/${userid}`, {
       headers: {
@@ -145,7 +148,7 @@ function UserProfile() {
           </div>
         </div>
       ) : (
-        <h2>Loading...</h2>
+        <h3 style={{ textAlign: "center" }}>Loading...</h3>
       )}
     </>
   );

@@ -151,6 +151,9 @@ function Home() {
 
   return (
     <div className="home">
+      {posts.length == 0 && (
+        <h3 style={{ textAlign: "center" }}>No Posts available</h3>
+      )}
       {posts?.map((post) => {
         return (
           <div className="card home-card" key={post._id}>
@@ -162,6 +165,11 @@ function Home() {
                     : "/profile"
                 }
               >
+                <img
+                  className="post-avatar"
+                  alt="avatar"
+                  src="http://mastere.utm.rnu.tn/uploads/profile/d3b1fb47eaaf14c9d47297954bd75e0b.jpeg"
+                />
                 {post.postedBy.name}
               </Link>
               {post.postedBy._id == state._id && (

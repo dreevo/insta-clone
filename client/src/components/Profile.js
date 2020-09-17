@@ -4,6 +4,7 @@ import { UserContext } from "../App";
 function Profile() {
   const [myPosts, setMyPosts] = useState([]);
   const { state, dispatch } = useContext(UserContext);
+
   useEffect(() => {
     fetch("http://localhost:4000/myposts", {
       headers: {
@@ -15,6 +16,7 @@ function Profile() {
         setMyPosts(result.myPosts);
       });
   }, []);
+
   return (
     <div className="profile">
       <div className="profile-top">
