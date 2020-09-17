@@ -6,6 +6,12 @@ export const reducer = (state, action) => {
   if (action.type === "CLEAR") {
     return null;
   }
+  if (action.type === "UPDATE_PIC") {
+    return {
+      ...state,
+      pic: action.payload,
+    };
+  }
   if (action.type === "UPDATE") {
     return {
       ...state,

@@ -90,3 +90,21 @@ module.exports.unfollowUser = (req, res) => {
     }
   );
 };
+
+module.exports.updatePic = (req, res) => {
+  User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { pic: req.body.pic } },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ error: "error updating the pic" });
+      } else {
+        res.json(result);
+      }
+    }
+  );
+};
