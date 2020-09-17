@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../keys");
 
 module.exports.signup_post = (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, pic } = req.body;
   if (!email || !name || !password) {
     return res.status(422).json({ error: "Please provide all fields" });
   } else {
@@ -20,6 +20,7 @@ module.exports.signup_post = (req, res) => {
                 email,
                 password: hashedPassword,
                 name,
+                pic,
               });
               user
                 .save()
@@ -59,8 +60,11 @@ module.exports.signin_post = (req, res) => {
       .then((match) => {
         if (match) {
           const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-          const { _id, name, email, followers, following } = savedUser;
-          res.json({ token, user: { _id, name, email, followers, following } });
+          const { _id, name, email, followers, following, pic } = savedUser;
+          res.json({
+            token,
+            user: { _id, name, email, followers, following, pic },
+          });
         } else {
           res.status(422).json({ error: "Invalid email or password" });
         }

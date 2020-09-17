@@ -104,7 +104,7 @@ function UserProfile() {
             <div>
               <img
                 className="profile-img"
-                src="http://mastere.utm.rnu.tn/uploads/profile/d3b1fb47eaaf14c9d47297954bd75e0b.jpeg"
+                src={userProfile ? userProfile.user.pic : "loading"}
                 alt="img"
               />
             </div>

@@ -71,7 +71,7 @@ function CreatePost() {
       />
       <div className="file-field input-field">
         <div className="btn #1976d2 blue darken-2s">
-          <span>Upload Image</span>
+          <span>Post Image</span>
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
         </div>
         <div className="file-path-wrapper">

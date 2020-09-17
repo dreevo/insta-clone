@@ -165,7 +165,7 @@ function Home() {
                 <img
                   className="post-avatar"
                   alt="avatar"
-                  src="http://mastere.utm.rnu.tn/uploads/profile/d3b1fb47eaaf14c9d47297954bd75e0b.jpeg"
+                  src={post.postedBy.pic}
                 />
                 {post.postedBy.name}
               </Link>

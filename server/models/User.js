@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema({
       ref: "User",
     },
   ],
+  pic: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dreevo-cloud/image/upload/v1600333158/x_dcftva.png",
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
