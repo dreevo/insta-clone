@@ -16,5 +16,6 @@ Router.delete(
   requireLogin,
   postController.deleteComment
 );
+Router.get("/getSubPost", requireLogin, postController.allSubscribePosts_get);
 
 module.exports = Router;

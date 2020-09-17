@@ -154,3 +154,15 @@ module.exports.deleteComment = (req, res) => {
       }
     });
 };
+
+module.exports.allSubscribePosts_get = (req, res) => {
+  Post.find({ postedBy: { $in: req.user.following } })
+    .populate("postedBy", "_id name")
+    .populate("comments.commentedBy", "_id name")
+    .then((posts) => {
+      res.json({ posts });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

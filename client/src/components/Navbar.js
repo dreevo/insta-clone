@@ -15,6 +15,9 @@ function Navbar() {
         <li key="create">
           <Link to="/createpost">Create Post</Link>
         </li>,
+        <li key="myfollowing">
+          <Link to="/myfollowingPosts">My following Posts</Link>
+        </li>,
         <li key="logout">
           <button
             className="waves-effect waves-light btn #1976d2 blue darken-2s"

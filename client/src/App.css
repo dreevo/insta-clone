@@ -105,6 +105,10 @@ nav li {
   margin: 26px auto;
 }
 
+.home-card h5 {
+  padding: 5px;
+}
+
 .input-field {
   margin: 30px auto;
   max-width: 500px;
