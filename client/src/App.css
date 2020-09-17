@@ -78,6 +78,10 @@ nav li {
   width: 108%;
 }
 
+.follow-btn {
+  margin: 10px;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;

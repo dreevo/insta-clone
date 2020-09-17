@@ -7,7 +7,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const history = useHistory();
-  const postDate = async () => {
+  const postData = async () => {
     await fetch("http://localhost:4000/signup", {
       method: "POST",
       headers: {
@@ -54,7 +54,7 @@ function Signup() {
         />
         <button
           className="waves-effect waves-light btn #1976d2 blue darken-2s"
-          onClick={postDate}
+          onClick={() => postData()}
         >
           Sign up
         </button>

@@ -70,7 +70,3 @@ module.exports.signin_post = (req, res) => {
       });
   });
 };
-
-module.exports.protected = (req, res) => {
-  res.send("Hello user");
-};

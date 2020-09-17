@@ -8,7 +8,7 @@ function Signin() {
   const [email, setEmail] = useState("");
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
-  const postDate = async () => {
+  const postData = async () => {
     await fetch("http://localhost:4000/signin", {
       method: "POST",
       headers: {
@@ -53,7 +53,7 @@ function Signin() {
         />
         <button
           className="waves-effect waves-light btn #1976d2 blue darken-2s"
-          onClick={postDate}
+          onClick={() => postData()}
         >
           Sign in
         </button>
