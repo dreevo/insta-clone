@@ -166,3 +166,24 @@ module.exports.allSubscribePosts_get = (req, res) => {
       console.log(err);
     });
 };
+
+module.exports.updatePost = (req, res) => {
+  const { title, body, pic } = req.body;
+  Post.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $set: { title, body, pic },
+    },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (err, result) => {
+      if (err) {
+        res.status(422).json({ error: "Error updating the post" });
+      } else {
+        res.json(result);
+      }
+    }
+  );
+};

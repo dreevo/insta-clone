@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 function Home() {
   const [posts, setPosts] = useState([]);
   const { state, dispatch } = useContext(UserContext);
+  const [updateBtn, setUpdateBtn] = useState(true);
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:4000/allposts", {
@@ -149,6 +152,50 @@ function Home() {
       });
   };
 
+  const updatePostInputs = (x, y) => {
+    setPostBody(x);
+    setPostTitle(y);
+    setUpdateBtn(false);
+  };
+
+  const updatePost = async (postId) => {
+    await fetch("http://localhost:4000/updatePost", {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        postId,
+        title: postTitle,
+        body: postBody,
+        pic:
+          "https://res.cloudinary.com/dreevo-cloud/image/upload/v1600213973/vtdam4eqm2dmfrlziwpb.jpg",
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setUpdateBtn(true);
+        M.toast({
+          html: "Post edited successfully",
+          classes: "rounded black darken-1",
+        });
+        const newData = posts.map((item) => {
+          if (item._id == result._id) {
+            result.postedBy = item.postedBy;
+            result.comments = item.comments;
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setPosts(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="home">
       {posts?.map((post) => {
@@ -169,7 +216,6 @@ function Home() {
                 />
                 {post.postedBy.name}
               </Link>
-
               {post.postedBy._id == state._id && (
                 <i
                   className="material-icons"
@@ -177,6 +223,19 @@ function Home() {
                   onClick={() => deletePost(post._id)}
                 >
                   delete
+                </i>
+              )}
+              {post.postedBy._id == state._id && (
+                <i
+                  className="material-icons update-btn"
+                  style={{ float: "right" }}
+                  onClick={() => updatePostInputs(post.body, post.title)}
+                >
+                  {updateBtn ? (
+                    "edit"
+                  ) : (
+                    <span onClick={() => updatePost(post._id)}>done</span>
+                  )}
                 </i>
               )}
             </h5>
@@ -204,9 +263,29 @@ function Home() {
                 </i>
               )}
 
-              <h6>{post.title}</h6>
+              {updateBtn || post.postedBy._id != state._id ? (
+                <h6>{post.title}</h6>
+              ) : (
+                <h6>
+                  <input
+                    value={postTitle}
+                    onChange={(e) => setPostTitle(e.target.value)}
+                    placeholder="change title"
+                  />
+                </h6>
+              )}
               <h6>{post.likes.length} likes</h6>
-              <p>{post.body}</p>
+              {updateBtn || post.postedBy._id != state._id ? (
+                <p>{post.body}</p>
+              ) : (
+                <p>
+                  <input
+                    value={postBody}
+                    onChange={(e) => setPostBody(e.target.value)}
+                    placeholder="change body"
+                  />
+                </p>
+              )}
               {post.comments.map((comment) => {
                 return (
                   <h6 key={comment._id}>
