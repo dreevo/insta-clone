@@ -8,5 +8,6 @@ Router.get("/user/:id", requireLogin, userController.showUser_get);
 Router.put("/follow", requireLogin, userController.followUser);
 Router.put("/unfollow", requireLogin, userController.unfollowUser);
 Router.put("/updatePic", requireLogin, userController.updatePic);
+Router.post("/searchUsers", requireLogin, userController.searchUsers_post);
 
 module.exports = Router;

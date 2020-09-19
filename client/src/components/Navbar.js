@@ -1,14 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import M from "materialize-css";
 
 function Navbar() {
+  useEffect(() => {
+    M.Modal.init(searchModal.current);
+  }, []);
+  const searchModal = useRef(null);
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
+  const [search, setSearch] = useState("");
+  const [userDetails, setUserDetails] = useState([]);
+
   const renderList = () => {
     if (state) {
       return [
+        <li key="search">
+          <i
+            className="material-icons modal-trigger"
+            style={{ color: "black" }}
+            data-target="modal1"
+          >
+            search
+          </i>
+        </li>,
         <li key="prof">
           <Link to="/profile">Profile</Link>
         </li>,
@@ -46,6 +62,25 @@ function Navbar() {
       ];
     }
   };
+
+  const fetchUsers = (query) => {
+    setSearch(query);
+    fetch("http://localhost:4000/searchUsers", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setUserDetails(result.user);
+      });
+  };
+
   return (
     <div className="navbar">
       <nav>
@@ -58,6 +93,42 @@ function Navbar() {
           </ul>
         </div>
       </nav>
+
+      <div id="modal1" className="modal" ref={searchModal}>
+        <div className="modal-content">
+          <input
+            type="text"
+            placeholder="search someone.."
+            onChange={(e) => fetchUsers(e.target.value)}
+            value={search}
+          />
+          <ul className="collection">
+            {userDetails.map((user) => {
+              return (
+                <Link
+                  to={
+                    user._id !== state._id ? `/profile/${user._id}` : "/profile"
+                  }
+                  key={user.email}
+                  onClick={() => setSearch("")}
+                >
+                  <li key={user.email} className="collection-item modal-close">
+                    {user.email}
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="modal-footer">
+          <button
+            className="modal-close waves-effect waves-green btn-flat"
+            onClick={() => setSearch("")}
+          >
+            Close
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
