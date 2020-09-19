@@ -27,6 +27,7 @@ module.exports.allPosts_get = (req, res) => {
   Post.find()
     .populate("postedBy", "_id name pic")
     .populate("comments.commentedBy", "_id name")
+    .sort("-createdAt")
     .then((posts) => {
       res.json({ posts });
     })
@@ -159,6 +160,7 @@ module.exports.allSubscribePosts_get = (req, res) => {
   Post.find({ postedBy: { $in: req.user.following } })
     .populate("postedBy", "_id name pic")
     .populate("comments.commentedBy", "_id name")
+    .sort("-createdAt")
     .then((posts) => {
       res.json({ posts });
     })
