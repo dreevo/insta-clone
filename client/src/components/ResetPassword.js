@@ -3,19 +3,16 @@ import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import M from "materialize-css";
 
-function Signin() {
-  const [password, setPassword] = useState("");
+function ResetPassword() {
   const [email, setEmail] = useState("");
-  const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const postData = async () => {
-    await fetch("http://localhost:4000/signin", {
+    await fetch("http://localhost:4000/resetPassword", {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
       },
       body: JSON.stringify({
-        password,
         email,
       }),
     })
@@ -24,14 +21,11 @@ function Signin() {
         if (data.error) {
           M.toast({ html: data.error, classes: "rounded red darken-3" });
         } else {
-          localStorage.setItem("jwt", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          dispatch({ type: "USER", payload: data.user });
           M.toast({
-            html: "Signed in successfully",
+            html: data.message,
             classes: "rounded green darken-1",
           });
-          history.push("/");
+          history.push("/signin");
         }
       });
   };
@@ -45,27 +39,15 @@ function Signin() {
           onChange={(e) => setEmail(e.target.value)}
           value={email}
         />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
         <button
           className="waves-effect waves-light btn #1976d2 blue darken-2s"
           onClick={() => postData()}
         >
-          Sign in
+          Send Verification
         </button>
-        <h5>
-          <Link to="/signup">Don't have an account ? </Link>
-        </h5>
-        <h5>
-          <Link to="/passwordReset">Forgot password ? </Link>
-        </h5>
       </div>
     </div>
   );
 }
 
-export default Signin;
+export default ResetPassword;

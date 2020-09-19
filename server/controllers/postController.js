@@ -168,11 +168,11 @@ module.exports.allSubscribePosts_get = (req, res) => {
 };
 
 module.exports.updatePost = (req, res) => {
-  const { title, body, pic } = req.body;
+  const { title, body } = req.body;
   Post.findByIdAndUpdate(
     req.body.postId,
     {
-      $set: { title, body, pic },
+      $set: { title, body },
     },
     {
       new: true,

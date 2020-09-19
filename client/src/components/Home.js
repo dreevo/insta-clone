@@ -169,8 +169,6 @@ function Home() {
         postId,
         title: postTitle,
         body: postBody,
-        pic:
-          "https://res.cloudinary.com/dreevo-cloud/image/upload/v1600213973/vtdam4eqm2dmfrlziwpb.jpg",
       }),
     })
       .then((res) => res.json())
@@ -287,23 +285,25 @@ function Home() {
                 </p>
               )}
               {post.comments.map((comment) => {
-                return (
-                  <h6 key={comment._id}>
-                    <span style={{ fontWeight: "bold", marginRight: "5px" }}>
-                      {comment.commentedBy.name}
-                    </span>
-                    {comment.text}
-                    {comment.commentedBy._id == state._id && (
-                      <i
-                        className="material-icons"
-                        style={{ float: "right" }}
-                        onClick={() => deleteComment(post._id, comment._id)}
-                      >
-                        delete
-                      </i>
-                    )}
-                  </h6>
-                );
+                if (comment.commentedBy != null) {
+                  return (
+                    <h6 key={comment._id}>
+                      <span style={{ fontWeight: "bold", marginRight: "5px" }}>
+                        {comment.commentedBy.name}
+                      </span>
+                      {comment.text}
+                      {comment.commentedBy._id == state._id && (
+                        <i
+                          className="material-icons"
+                          style={{ float: "right" }}
+                          onClick={() => deleteComment(post._id, comment._id)}
+                        >
+                          delete
+                        </i>
+                      )}
+                    </h6>
+                  );
+                }
               })}
               <form
                 onSubmit={(e) => {

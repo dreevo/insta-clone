@@ -14,7 +14,9 @@ import Profile from "./components/Profile";
 import UserProfile from "./components/UserProfile";
 import CreatePost from "./components/CreatePost";
 import SubscribedPosts from "./components/SubscribedPosts";
+import ResetPassword from "./components/ResetPassword";
 import { initialState, reducer } from "./reducers/userReducer";
+import NewPassword from "./components/NewPassword";
 
 export const UserContext = createContext();
 
@@ -26,7 +28,9 @@ const Routing = () => {
     if (user) {
       dispatch({ type: "USER", payload: user });
     } else {
-      history.push("/signin");
+      if (!history.location.pathname.startsWith("/passwordReset")) {
+        history.push("/signin");
+      }
     }
   }, []);
   return (
@@ -52,6 +56,12 @@ const Routing = () => {
       <Route path="/myfollowingPosts">
         <SubscribedPosts />
       </Route>
+      <Route path="/passwordReset" exact>
+        <ResetPassword />
+      </Route>
+      <Route path="/passwordReset/:token">
+        <NewPassword />
+      </Route>
     </Switch>
   );
 };
@@ -63,7 +73,6 @@ function App() {
       <Router>
         <div className="App">
           <Navbar />
-
           <Routing />
         </div>
       </Router>

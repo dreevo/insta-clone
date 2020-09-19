@@ -34,6 +34,8 @@ const userSchema = mongoose.Schema({
     default:
       "https://res.cloudinary.com/dreevo-cloud/image/upload/v1600333158/x_dcftva.png",
   },
+  resetToken: String,
+  expireToken: Date,
 });
 
 module.exports = mongoose.model("User", userSchema);
